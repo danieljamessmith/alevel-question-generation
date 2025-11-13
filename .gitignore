@@ -1,59 +1,6 @@
 # Input images directory (processed images should not be committed)
 img/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-venv/
-env/
-ENV/
-.venv/
-
-# Environment variables
-.env
-.env.local
-
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# LaTeX temporary files
-*.aux
-*.log
-*.out
-*.toc
-*.synctex.gz
-*.fdb_latexmk
-*.fls
-*.bbl
-*.blg
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# OS files
-Thumbs.db
+# Output files (keep directory structure but ignore generated files)
+output/*.jsonl
+output/*.tex
