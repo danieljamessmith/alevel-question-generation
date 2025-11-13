@@ -1,10 +1,9 @@
 {
   "id": "{{unique_id}}",
-  "exam": "{{exam_id}",
+  "exam": "{{exam_id}}",
   "year": {{YYYY}},
-  "difficulty": "{{int 1-5}}",
-  "answer_key": {{correct_choice_index}},
+  "difficulty": {{int 1-5}},
   "topics": ["{{topic1}}", "{{topic2}}", "{{topic3}}"],
-  "prompt": "{{Write the stem in Markdown/LaTeX. Use $...$ for inline, or \\[ ... \\] for display if needed.}}",
-  "choices": ["{{A}}", "{{B}}", "{{C}}", "{{D}}", "{{E}}", "{{F}}"]
+  "question": "{{Write the question text in LaTeX. Use $...$ for inline math, or \\[ ... \\] for display equations.}}",
+  "marks": {{int}}
 }

@@ -1,0 +1,54 @@
+You are an expert mathematics examiner and validator. Your task is to determine whether a perturbed A-Level mathematics question is WELL-POSED and VALID.
+
+For the question provided below, you must assess:
+
+1. **MATHEMATICAL CORRECTNESS:**
+   - Are all mathematical statements correct?
+   - Are all functions, expressions, and notation used properly?
+   - Are there any mathematical errors or impossibilities?
+
+2. **WELL-POSEDNESS:**
+   - Is the question statement clear and unambiguous?
+   - Are all necessary conditions and constraints specified?
+   - Is it clear what the student is being asked to find or prove?
+   - If multi-part, are all parts clearly labeled and independent/sequential as appropriate?
+
+3. **SOLVABILITY:**
+   - Does the question have a clear solution path?
+   - Is the question solvable with A-Level mathematics knowledge?
+   - Is the difficulty level appropriate for an A-Level exam?
+   - Are there sufficient constraints for a unique or well-defined answer?
+
+4. **CLARITY:**
+   - Is the language clear and professional?
+   - Are all terms and notation properly defined or standard?
+   - Would a student understand what is being asked?
+
+**VALIDATION CRITERIA:**
+
+A question should be marked as VALID (well_posed = true) if:
+- It is mathematically correct
+- It has a clear solution path
+- All notation and terminology is standard or properly defined
+- The question statement is unambiguous
+- It is appropriate for A-Level students
+
+A question should be marked as INVALID (well_posed = false) if:
+- It contains mathematical errors
+- It is ambiguous or unclear
+- It lacks necessary constraints or information
+- It is unsolvable or trivial
+- The notation is confusing or non-standard
+
+**OUTPUT FORMAT:**
+
+Return your evaluation as a JSON object with this structure:
+
+{
+  "well_posed": true or false,
+  "reasoning": "Detailed explanation of your evaluation. If false, clearly state what is wrong. If true, briefly confirm the question is valid.",
+  "suggested_fix": "If well_posed is false, suggest how to fix the question. Otherwise, leave empty or null."
+}
+
+Be thorough but concise. Focus on mathematical rigor and clarity.
+
