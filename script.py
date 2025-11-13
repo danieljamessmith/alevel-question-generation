@@ -14,6 +14,7 @@ import json
 import base64
 import time
 import sys
+import argparse
 from pathlib import Path
 from openai import OpenAI
 
@@ -54,6 +55,9 @@ PERTURBED_FILE = OUTPUT_DIR / "2_perturbed.jsonl"
 VALIDATED_FILE = OUTPUT_DIR / "3_validated.jsonl"
 FINAL_TEX_FILE = OUTPUT_DIR / "4_final_document.tex"
 
+# Global flag for non-interactive mode
+NON_INTERACTIVE = False
+
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
@@ -91,6 +95,13 @@ def load_example_tex_files(examples_dir):
 
 def ask_special_prompt(stage_name):
     """Ask user for a special prompt for a given stage."""
+    if NON_INTERACTIVE:
+        print(f"\n{'='*60}")
+        print(f"STAGE: {stage_name}")
+        print(f"{'='*60}")
+        print(f"[Non-interactive mode: Using default prompt for {stage_name}]")
+        return ""
+    
     print(f"\n{'='*60}")
     print(f"STAGE: {stage_name}")
     print(f"{'='*60}")
@@ -265,7 +276,7 @@ def perturb_question(question, prompt_text, special_prompt=""):
                 "content": full_prompt
             }
         ],
-        max_completion_tokens=5000,
+        max_completion_tokens=10000,
         response_format={"type": "json_object"},
     )
     
@@ -598,9 +609,13 @@ def main():
     # Ask about clearing img directory upfront
     clear_img = None
     if IMG_DIR.exists() and any(IMG_DIR.glob("*")):
-        print("\n")
-        clear_response = input("Clear /img directory after transcription? (y/n): ").strip().lower()
-        clear_img = (clear_response == 'y')
+        if NON_INTERACTIVE:
+            clear_img = False
+            print("\n[Non-interactive mode: Will NOT clear /img directory after transcription]")
+        else:
+            print("\n")
+            clear_response = input("Clear /img directory after transcription? (y/n): ").strip().lower()
+            clear_img = (clear_response == 'y')
     
     # ========================================================================
     # STAGE 1: TRANSCRIPTION
@@ -725,5 +740,32 @@ def main():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="A-Level Question Perturbation Pipeline",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python script.py                    # Run interactively (default)
+  python script.py --force            # Run without prompts (all defaults)
+  python script.py --default          # Same as --force
+        """
+    )
+    parser.add_argument(
+        '--force', '--default',
+        action='store_true',
+        dest='non_interactive',
+        help='Run in non-interactive mode: skip all prompts (empty) and answer "n" to all y/n questions'
+    )
+    
+    args = parser.parse_args()
+    NON_INTERACTIVE = args.non_interactive
+    
+    if NON_INTERACTIVE:
+        print("\n" + "="*70)
+        print("RUNNING IN NON-INTERACTIVE MODE")
+        print("  - All special prompts will be empty (using defaults)")
+        print("  - All y/n questions will default to 'n'")
+        print("="*70)
+    
     main()
 
