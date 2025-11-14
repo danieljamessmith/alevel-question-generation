@@ -2,8 +2,9 @@
   "id": "{{unique_id}}",
   "exam": "{{exam_id}}",
   "year": {{YYYY}},
-  "difficulty": {{int 1-5}},
   "topics": ["{{topic1}}", "{{topic2}}", "{{topic3}}"],
+  "has_diagram": {{boolean}},
+  "diagram_desc": "{{If has_diagram is true, provide a concise, plaintext description of the diagram. For graphs, include the equation. For geometric diagrams, describe key features (shapes, labels, measurements). Keep it perturbable and suitable for recreation in Desmos or by hand. If has_diagram is false, use null or empty string.}}",
   "question": "{{Write the question text in LaTeX. Use $...$ for inline math, or \\[ ... \\] for display equations.}}",
   "marks": {{int}}
 }

@@ -24,6 +24,15 @@ For the question provided below, you must assess:
    - Are all terms and notation properly defined or standard?
    - Would a student understand what is being asked?
 
+5. **DIAGRAM VALIDATION (if applicable):**
+   - If has_diagram is true, is the diagram description clear and interpretable?
+   - Is the diagram description consistent with the question text?
+   - Would the described diagram be mathematically sensible for this question?
+   - For graphs: Is the equation/function appropriate for the question?
+   - For geometric diagrams: Are the described measurements and relationships valid?
+   - Is the diagram description sufficiently detailed to enable accurate recreation?
+   - Would the diagram help clarify (not confuse) the question for a student?
+
 **VALIDATION CRITERIA:**
 
 A question should be marked as VALID (well_posed = true) if:
@@ -32,6 +41,7 @@ A question should be marked as VALID (well_posed = true) if:
 - All notation and terminology is standard or properly defined
 - The question statement is unambiguous
 - It is appropriate for A-Level students
+- If a diagram is present, the description is clear, sensible, and consistent with the question
 
 A question should be marked as INVALID (well_posed = false) if:
 - It contains mathematical errors
@@ -39,6 +49,7 @@ A question should be marked as INVALID (well_posed = false) if:
 - It lacks necessary constraints or information
 - It is unsolvable or trivial
 - The notation is confusing or non-standard
+- If a diagram is present, the description is unclear, inconsistent, or mathematically inappropriate
 
 **OUTPUT FORMAT:**
 
