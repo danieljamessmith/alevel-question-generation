@@ -87,11 +87,31 @@ You will receive:
    - Convert \\\\ to \\ for LaTeX commands
    - Preserve math notation correctly
 
-5. **Handle multi-part questions:**
+5. **Apply formatting preferences:**
+   
+   **PUNCTUATION AFTER MATH MODE:**
+   - DO NOT place punctuation (periods, commas, etc.) immediately after math mode, especially display math `\\[ \\]` or inline math `$ $`
+   - Remove trailing punctuation from mathematical expressions even if this results in grammatically incorrect sentences
+   - Example: Instead of "Show that $T = \\dfrac{5}{2}$." write "Show that $T = \\dfrac{5}{2}$" (no period)
+   - Example: Instead of "Find the value of $x$, where..." write "Find the value of $x$ where..." (no comma after math)
+   
+   **LINE SPACING AND BREAKS:**
+   - Use manual line breaks `\\\\` liberally to add extra vertical spacing between distinct lines
+   - Apply `\\\\` at the end of lines before starting a new line or paragraph within questions
+   - Apply `\\\\` between distinct equations or mathematical statements for better readability
+   - Example structure:
+     ```latex
+     The quick brown fox, \\\\
+     
+     jumped over the lazy dog.
+     ```
+   - Use `\\\\` even when there are blank lines, to ensure adequate vertical spacing in the compiled document
+
+6. **Handle multi-part questions:**
    - If a question has parts (a), (b), (c), etc., preserve this structure
    - Use nested enumerate environments with appropriate labels if needed
 
-6. **Output format:** Return a JSON object with a "latex_document" string containing the COMPLETE LaTeX document:
+7. **Output format:** Return a JSON object with a "latex_document" string containing the COMPLETE LaTeX document:
    ```json
    {
      "latex_document": "\\\\documentclass[...]{...}\\n\\\\usepackage{...}\\n...\\n\\\\begin{document}\\n...\\n\\\\end{document}"
@@ -105,6 +125,8 @@ You will receive:
 - DO NOT use `\marks{}` anywhere in the document body - only metadata comments are allowed
 - For questions with diagrams, include the diagram description as a comment (% DIAGRAM: ...) for manual recreation
 - Pay close attention to the spacing patterns in the examples (\\hrulefill, \\vspace, etc.)
+- **FORMATTING CRITICAL:** Remove ALL punctuation immediately after math mode (e.g., "$x$." becomes "$x$")
+- **SPACING CRITICAL:** Use manual line breaks `\\\\` liberally between lines and equations for proper vertical spacing
 - Ensure proper LaTeX syntax (no syntax errors)
 - Maintain consistency with the example formatting style
 - If examples have different preambles, intelligently merge them or choose the most comprehensive one
