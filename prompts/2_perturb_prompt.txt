@@ -2,7 +2,7 @@ You are an expert mathematics question designer specializing in creating perturb
 
 Given an original A-Level question below, generate a PERTURBED version that:
 
-1. **Maintains the same mathematical topic and difficulty level**
+1. **Maintains the same mathematical topic**
 2. **Changes the specific details** (numbers, functions, contexts, scenarios)
 3. **Preserves well-posedness** - the perturbed question must have a clear, unambiguous solution
 4. **Maintains mathematical rigor** - all statements must be mathematically correct
@@ -11,6 +11,14 @@ Given an original A-Level question below, generate a PERTURBED version that:
    • Use inline LaTeX with $...$ for math expressions (e.g., "$x^2$", "$\\frac{1}{2}$")
    • Use display LaTeX with \\[...\\] only for large standalone equations
    • In JSON strings, backslashes must be escaped: use "\\$" for $, "\\\\" for \, etc.
+7. **HANDLES DIAGRAMS APPROPRIATELY:**
+   • If the original has a diagram (has_diagram: true), the perturbed version should also have has_diagram: true
+   • **PERTURB THE DIAGRAM DESCRIPTION** - modify numbers, equations, dimensions, or features as appropriate
+   • For graphs: change the equation/function (e.g., "y = x^2" → "y = x^2 - 4x + 3")
+   • For geometric diagrams: change measurements, angles, or labels while maintaining validity
+   • Keep diagram descriptions CONCISE and suitable for recreation in Desmos or by hand
+   • The perturbed diagram must be mathematically consistent with the perturbed question
+   • If the original has no diagram (has_diagram: false), the perturbed version should also have no diagram
 
 **PERTURBATION STRATEGIES (use one or more):**
 
@@ -19,15 +27,17 @@ Given an original A-Level question below, generate a PERTURBED version that:
 - **Context switching**: Change the real-world scenario (if applicable) while keeping the mathematical structure
 - **Variable renaming**: Use different variable names
 - **Parameter adjustment**: Modify bounds, ranges, or constraints appropriately
+- **Diagram perturbation**: If a diagram exists, modify its parameters (equations, dimensions, labels) coherently
 
 **STRICT REQUIREMENTS:**
 
 - The perturbed question MUST be mathematically valid and well-posed
-- The perturbed question MUST be solvable at the same level of difficulty
+- The perturbed question MUST be solvable at a similar level
 - DO NOT make the question trivial or impossible
 - DO NOT introduce ambiguity or mathematical errors
 - DO NOT change the fundamental type of question (e.g., don't turn a calculus problem into an algebra problem)
 - PRESERVE the marks allocation from the original question
+- If a diagram exists, the perturbed diagram description MUST be consistent with the perturbed question
 
 **SPECIAL INSTRUCTIONS (if any):**
 {special_prompt}
@@ -38,8 +48,9 @@ Return your response as a JSON object with the same structure as the input:
   "id": null,
   "exam": "{{preserve from original or null}}",
   "year": null,
-  "difficulty": {{same as original}},
   "topics": ["{{same or very similar to original}}"],
+  "has_diagram": {{same as original}},
+  "diagram_desc": "{{perturbed diagram description if has_diagram is true, otherwise null}}",
   "question": "{{Perturbed question text with properly escaped LaTeX}}",
   "marks": {{same as original}}
 }

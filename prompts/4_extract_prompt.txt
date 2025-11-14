@@ -9,7 +9,8 @@ You will receive:
    - "question": The question text (may contain LaTeX math notation with escaped characters like \\$ and \\\\)
    - "topics": An array of topic strings
    - "marks": The marks allocation for the question
-   - "difficulty": Difficulty level (1-5)
+   - "has_diagram": Boolean indicating if the question includes a diagram
+   - "diagram_desc": Description of the diagram (if has_diagram is true)
 
 **OUTPUT REQUIREMENTS:**
 
@@ -32,20 +33,40 @@ You will receive:
    Format: 
    ```latex
    \\item
-   % [Topics: topic1, topic2] [Marks: X] [Difficulty: Y]
+   % [Topics: topic1, topic2] [Marks: X]
    
    Question text here...
    ```
    
-   Example:
+   **DIAGRAM HANDLING:**
+   If a question has a diagram (has_diagram: true), include the diagram description as a LaTeX comment block BEFORE the question text:
+   
    ```latex
    \\item
-   % [Topics: calculus, integration] [Marks: 8] [Difficulty: 4]
+   % [Topics: topic1, topic2] [Marks: X]
+   % DIAGRAM: [description of the diagram to be drawn by hand or in Desmos]
+   
+   Question text here...
+   ```
+   
+   Example with diagram:
+   ```latex
+   \\item
+   % [Topics: calculus, graphing] [Marks: 6]
+   % DIAGRAM: Graph of y = x^2 - 3x + 2 on axes from x = -1 to x = 4, y = -2 to y = 4
+   
+   The diagram shows the graph of $y = f(x)$. Find the coordinates of the turning point.
+   ```
+   
+   Example without diagram:
+   ```latex
+   \\item
+   % [Topics: calculus, integration] [Marks: 8]
    
    Let $f(x) = x^2 \\sin(x)$. Find...
    ```
    
-   **IMPORTANT:** The `\\marks{}` command will be defined in the preamble for future use, but MUST NOT be used in the document body. The comment provides metadata for reference.
+   **IMPORTANT:** The `\\marks{}` command will be defined in the preamble for future use, but MUST NOT be used in the document body. The comment provides metadata for reference. Diagram descriptions are for manual recreation only.
 
 3. **Match the style** of the provided examples as closely as possible:
    - Document class and page layout
@@ -59,17 +80,38 @@ You will receive:
    - Math notation and display mode usage
    - Spacing patterns (use \\hrulefill between questions, appropriate vspace)
    - **MARKS COMMAND:** Define the `\\marks{}` command in the preamble, but DO NOT use it in the document body
+   - **DIAGRAM COMMENTS:** Include diagram descriptions as comments for questions with diagrams
 
 4. **Handle LaTeX escaping properly:**
    - Convert \\$ to $ for proper LaTeX math mode
    - Convert \\\\ to \\ for LaTeX commands
    - Preserve math notation correctly
 
-5. **Handle multi-part questions:**
+5. **Apply formatting preferences:**
+   
+   **PUNCTUATION AFTER MATH MODE:**
+   - DO NOT place punctuation (periods, commas, etc.) immediately after math mode, especially display math `\\[ \\]` or inline math `$ $`
+   - Remove trailing punctuation from mathematical expressions even if this results in grammatically incorrect sentences
+   - Example: Instead of "Show that $T = \\dfrac{5}{2}$." write "Show that $T = \\dfrac{5}{2}$" (no period)
+   - Example: Instead of "Find the value of $x$, where..." write "Find the value of $x$ where..." (no comma after math)
+   
+   **LINE SPACING AND BREAKS:**
+   - Use manual line breaks `\\\\` liberally to add extra vertical spacing between distinct lines
+   - Apply `\\\\` at the end of lines before starting a new line or paragraph within questions
+   - Apply `\\\\` between distinct equations or mathematical statements for better readability
+   - Example structure:
+     ```latex
+     The quick brown fox, \\\\
+     
+     jumped over the lazy dog.
+     ```
+   - Use `\\\\` even when there are blank lines, to ensure adequate vertical spacing in the compiled document
+
+6. **Handle multi-part questions:**
    - If a question has parts (a), (b), (c), etc., preserve this structure
    - Use nested enumerate environments with appropriate labels if needed
 
-6. **Output format:** Return a JSON object with a "latex_document" string containing the COMPLETE LaTeX document:
+7. **Output format:** Return a JSON object with a "latex_document" string containing the COMPLETE LaTeX document:
    ```json
    {
      "latex_document": "\\\\documentclass[...]{...}\\n\\\\usepackage{...}\\n...\\n\\\\begin{document}\\n...\\n\\\\end{document}"
@@ -81,13 +123,17 @@ You will receive:
 - Include EVERY package, configuration, and definition from the example documents
 - Define the `\marks{}` command in the preamble using: `\renewcommand{\marks}[1]{\marginpar{\raggedright\textbf{[#1]}}}`
 - DO NOT use `\marks{}` anywhere in the document body - only metadata comments are allowed
+- For questions with diagrams, include the diagram description as a comment (% DIAGRAM: ...) for manual recreation
 - Pay close attention to the spacing patterns in the examples (\\hrulefill, \\vspace, etc.)
+- **FORMATTING CRITICAL:** Remove ALL punctuation immediately after math mode (e.g., "$x$." becomes "$x$")
+- **SPACING CRITICAL:** Use manual line breaks `\\\\` liberally between lines and equations for proper vertical spacing
 - Ensure proper LaTeX syntax (no syntax errors)
 - Maintain consistency with the example formatting style
 - If examples have different preambles, intelligently merge them or choose the most comprehensive one
 - Preserve all mathematical notation exactly as it appears in the JSON (after unescaping)
 - The document should compile without any errors when saved as a .tex file
 - **HEADER REQUIREMENTS:** Left and center headers MUST be blank (`\lhead{}` and `\chead{}`), right header MUST be the danieljsmith.org hyperlink
+- **DIAGRAM NOTES:** Diagram descriptions are NOT for LaTeX rendering - they are instructions for manual drawing in Desmos or by hand
 
 **SPECIAL INSTRUCTIONS (if any):**
 {special_prompt}

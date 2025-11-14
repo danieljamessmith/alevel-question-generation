@@ -168,7 +168,7 @@ def transcribe_image(image_path, prompt_text, template_text, special_prompt=""):
                 ]
             }
         ],
-        max_completion_tokens=5000,
+        max_completion_tokens=8000,
         response_format={"type": "json_object"},
     )
     
@@ -276,7 +276,7 @@ def perturb_question(question, prompt_text, special_prompt=""):
                 "content": full_prompt
             }
         ],
-        max_completion_tokens=10000,
+        max_completion_tokens=15000,
         response_format={"type": "json_object"},
     )
     
@@ -376,7 +376,7 @@ def validate_question(question, prompt_text):
                 "content": full_prompt
             }
         ],
-        max_completion_tokens=3000,
+        max_completion_tokens=5000,
         response_format={"type": "json_object"},
     )
     
@@ -512,7 +512,7 @@ Copy ALL package imports, custom commands, and configurations from the example d
                 "content": full_prompt
             }
         ],
-        max_completion_tokens=20000,
+        max_completion_tokens=25000,
         response_format={"type": "json_object"},
     )
     
