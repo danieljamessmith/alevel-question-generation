@@ -376,7 +376,7 @@ def validate_question(question, prompt_text):
                 "content": full_prompt
             }
         ],
-        max_completion_tokens=5000,
+        max_completion_tokens=10000,
         response_format={"type": "json_object"},
     )
     
@@ -438,7 +438,7 @@ def run_validation_stage(perturbed_questions):
             print(f"  Time: {elapsed_time:.2f}s")
             
             if not well_posed:
-                print(f"  Reason: {reasoning[:150]}...")
+                print(f"  Reason: {reasoning[:1000]}...")
                 print(f"  ✗ Question REJECTED")
             else:
                 # Save to file
